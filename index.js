@@ -1,7 +1,6 @@
-const fs = require('fs');
-const inquirer = require('inquirer');
+import fs from 'fs';
+import inquirer from 'inquirer';
 
-// Questions for the user input
 const questions = [
     {
         type: 'input',
@@ -51,7 +50,6 @@ const questions = [
     },
 ];
 
-// Function to generate the README content
 function generateREADME(answers) {
     const licenseBadge = {
         'MIT': '[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)',
@@ -100,17 +98,15 @@ Email: ${answers.email}
 `;
 }
 
-// Main function to initialize the app
-function init() {
-    inquirer.prompt(questions)
-        .then((answers) => {
-            const readmeContent = generateREADME(answers);
-            fs.writeFileSync('README.md', readmeContent);
-            console.log('README.md has been generated!');
-        })
-        .catch((error) => {
-            console.error('Error generating README.md:', error);
-        });
+async function init() {
+    try {
+        const answers = await inquirer.prompt(questions);
+        const readmeContent = generateREADME(answers);
+        fs.writeFileSync('README.md', readmeContent);
+        console.log('README.md has been generated!');
+    } catch (error) {
+        console.error('Error generating README.md:', error);
+    }
 }
 
 init();
